@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">NetworkLR</string>
+    <string name="init">Reinitialise</string>
+    <string name="add_object">Add object</string>
+    <string name="add_connection">Add Connection</string>
+    <string name="edit">Edit</string>
+    <string name="obj_name">Object\'s name</string>
+    <string name="cancel_obj">Cancel</string>
+    <string name="create_obj">Create</string>
+    <string name="new_obj">New object</string>
+    <string name="language">English</string>
+</resources>

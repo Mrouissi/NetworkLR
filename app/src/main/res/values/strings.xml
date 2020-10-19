@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">NetworkLR</string>
+    <string name="init">Réinitialiser</string>
+    <string name="add_object">Ajouter un objet</string>
+    <string name="add_connection">Ajouter une connexion</string>
+    <string name="edit">Modifier</string>
+    <string name="obj_name">Nom de l\'objet</string>
+    <string name="new_obj">Nouvel objet</string>
+    <string name="create_obj">Créer</string>
+    <string name="cancel_obj">Annuler</string>
+    <string name="language">Français</string>
+
 </resources>

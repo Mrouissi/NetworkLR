@@ -1,4 +1,4 @@
 package fr.istic.mob.networkLR
 
-class ConnectedObject {
+class ConnectedObject(var name: String, val x: Float, val y: Float){
 }
