@@ -3,10 +3,9 @@ package fr.istic.mob.networkLR
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.RectF
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -20,8 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     var lastTouchX = 0f
     var lastTouchY = 0f
+    private val objHeight = 100f
+    private val objWidth = 125f
     private val graph = Graph()
 
+    private var obj: ConnectedObject? = null
+    private var onObject = false
+    private var onMove = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +36,46 @@ class MainActivity : AppCompatActivity() {
         /** LISTENERS **/
 
         graphView.setOnLongClickListener(View.OnLongClickListener {
-            this.addNewObject(this.lastTouchX, this.lastTouchY)
-            return@OnLongClickListener true
+            for (obj in graph.getListConnectedObject()) {
+                if ((this.lastTouchX >= (obj.x - this.objWidth/2) && this.lastTouchX <= (obj.x + this.objWidth/2)) &&
+                    (this.lastTouchY >= (obj.y - this.objHeight/2) && this.lastTouchY <= (obj.y + this.objHeight/2))) {
+                    onObject = true
+                }
+            }
+
+            if (!onObject) {
+                this.addNewObject(this.lastTouchX, this.lastTouchY)
+                return@OnLongClickListener true
+            } else {
+                return@OnLongClickListener false
+            }
+
         })
 
         graphView.setOnTouchListener(View.OnTouchListener { view, ev ->
-            this.lastTouchX = ev.x
-            this.lastTouchY = ev.y
-            view.performClick()
+            when (ev.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    this.lastTouchX = ev.x
+                    this.lastTouchY = ev.y
+                    if (!onMove) { obj = getClickObject() }
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    onMove = true
+                    this.lastTouchX = ev.x
+                    this.lastTouchY = ev.y
+//                    obj = getClickObject()
+                        this.modifyObject(obj, this.lastTouchX, this.lastTouchY)
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    onMove = false
+                    obj = null
+                    onObject = false
+                    view.performClick()
+                }
+            }
+
             return@OnTouchListener false
         })
     }
@@ -70,6 +106,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun modifyObject(obj: ConnectedObject?, x: Float, y: Float) {
+        obj?.x = x
+        obj?.y = y
+        graphView.invalidate()
+    }
+
     fun reinitializeGraph(item: MenuItem) {
         graph.getListConnectedObject().clear()
         graphView.invalidate()
@@ -94,6 +136,17 @@ class MainActivity : AppCompatActivity() {
 
         applicationContext.createConfigurationContext(conf)
 
+    }
+
+    private fun getClickObject(): ConnectedObject?  {
+        for (obj in graph.getListConnectedObject()) {
+            if ((this.lastTouchX >= (obj.x - this.objWidth/2) && this.lastTouchX <= (obj.x + this.objWidth/2)) &&
+                (this.lastTouchY >= (obj.y - this.objHeight/2) && this.lastTouchY <= (obj.y + this.objHeight/2))) {
+                onObject = true
+                return obj
+            }
+        }
+        return null
     }
 
 }
