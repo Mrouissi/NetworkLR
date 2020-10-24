@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_init_network"
+        android:icon="@drawable/ic_baseline_refresh_24"
+        android:title="Init Network"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_add_object"
+        android:icon="@drawable/ic_round_add_circle_outline_24"
+        android:title="Add Object"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_add_connection"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="Add Connection"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_move"
+        android:icon="@drawable/ic_move_24"
+        app:showAsAction="always"
+        android:title="Move Object" />
+
+</menu>
