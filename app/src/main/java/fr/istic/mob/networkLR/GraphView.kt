@@ -1,10 +1,7 @@
 package fr.istic.mob.networkLR
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 
@@ -15,6 +12,7 @@ class GraphView @JvmOverloads constructor(
     private var graph: Graph = Graph()
     private val paintObj: Paint = Paint()
     private val paintText: Paint = Paint()
+    private val paintConnection: Paint = Paint()
     private val objHeight = 75f
     private val objWidth = 100f
 
@@ -30,6 +28,12 @@ class GraphView @JvmOverloads constructor(
             textSize = 50f
         }
 
+        paintConnection.apply {
+            color = Color.GREEN
+            style = Paint.Style.FILL
+            strokeWidth = 5f
+        }
+
         for (obj in this.graph.getListConnectedObject()) {
             val rectF = this.connectedObjectToRectF(obj)
             canvas.drawRoundRect(rectF, 10f, 10f, paintObj)
@@ -37,8 +41,19 @@ class GraphView @JvmOverloads constructor(
         }
 
         for (connection in this.graph.getListConnection()) {
-            canvas.drawLine(connection.getObj1Connection().x + objWidth/2, connection.getObj1Connection().y + objHeight/2,
-                connection.getObj2Connection().x + objWidth/2, connection.getObj2Connection().y + objHeight/2, paintObj)
+            canvas.drawLine(connection.getObj1Connection().x, connection.getObj1Connection().y,
+                connection.getObj2Connection().x, connection.getObj2Connection().y, paintConnection)
+        }
+
+//        canvas.drawPath(graph.tempConnection, paintConnection)
+        if (graph.tempConnection != null) {
+            canvas.drawLine(
+                graph.tempConnection!!.getObj1Connection().x,
+                graph.tempConnection!!.getObj1Connection().y,
+                graph.tempConnection!!.getObj2Connection().x,
+                graph.tempConnection!!.getObj2Connection().y,
+                paintConnection
+            )
         }
 
         super.onDraw(canvas)
@@ -54,7 +69,7 @@ class GraphView @JvmOverloads constructor(
         )
     }
 
-    public fun setGraph(graph: Graph) {
+    fun setGraph(graph: Graph) {
         this.graph = graph
     }
 }

@@ -3,6 +3,7 @@ package fr.istic.mob.networkLR
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.Path
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -71,12 +72,18 @@ class MainActivity : AppCompatActivity() {
                     if (modeAddObject || modeEdit) {
                         this.modifyObject(obj, this.lastTouchX, this.lastTouchY)
                     }
-                    if (modeAddConnection) {
-                        this.tempConnection(obj, this.lastTouchX, this.lastTouchY)
+                    if (modeAddConnection && obj != null) {
+                        this.tempConnection(obj!!, this.lastTouchX, this.lastTouchY)
                     }
                 }
 
                 MotionEvent.ACTION_UP -> {
+                    if (modeAddConnection) {
+                        if(getClickObject() != null && !this.graph.getListConnection().contains(Connection(obj!!, getClickObject()!!))) {
+                            this.graph.getListConnection().add(Connection(obj!!, getClickObject()!!))
+                        }
+                        graph.tempConnection = null
+                    }
                     onMove = false
                     obj = null
                     onObject = false
@@ -130,12 +137,15 @@ class MainActivity : AppCompatActivity() {
         graphView.invalidate()
     }
 
-    private fun tempConnection(obj: ConnectedObject?, x: Float, y: Float) {
-
+    private fun tempConnection(obj: ConnectedObject, x: Float, y: Float) {
+        graph.tempConnection = Connection(obj, ConnectedObject("tempObj", x, y))
+        graphView.invalidate()
     }
 
     fun reinitializeGraph(item: MenuItem) {
         graph.getListConnectedObject().clear()
+        graph.getListConnection().clear()
+        graph.tempConnection = null
         graphView.invalidate()
     }
 
