@@ -36,6 +36,11 @@ class GraphView @JvmOverloads constructor(
             canvas.drawText(obj.name, rectF.centerX(), rectF.centerY(), paintText)
         }
 
+        for (connection in this.graph.getListConnection()) {
+            canvas.drawLine(connection.getObj1Connection().x + objWidth/2, connection.getObj1Connection().y + objHeight/2,
+                connection.getObj2Connection().x + objWidth/2, connection.getObj2Connection().y + objHeight/2, paintObj)
+        }
+
         super.onDraw(canvas)
 
     }

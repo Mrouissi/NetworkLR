@@ -19,9 +19,15 @@ class MainActivity : AppCompatActivity() {
 
     var lastTouchX = 0f
     var lastTouchY = 0f
+
     private val objHeight = 100f
     private val objWidth = 125f
     private val graph = Graph()
+
+    private var modeAddObject = true
+    private var modeAddConnection = false
+    private var modeEdit = false
+
 
     private var obj: ConnectedObject? = null
     private var onObject = false
@@ -36,20 +42,18 @@ class MainActivity : AppCompatActivity() {
         /** LISTENERS **/
 
         graphView.setOnLongClickListener(View.OnLongClickListener {
-            for (obj in graph.getListConnectedObject()) {
-                if ((this.lastTouchX >= (obj.x - this.objWidth/2) && this.lastTouchX <= (obj.x + this.objWidth/2)) &&
-                    (this.lastTouchY >= (obj.y - this.objHeight/2) && this.lastTouchY <= (obj.y + this.objHeight/2))) {
-                    onObject = true
-                }
-            }
+            if (modeAddObject) {
+                getClickObject()
 
-            if (!onObject) {
-                this.addNewObject(this.lastTouchX, this.lastTouchY)
-                return@OnLongClickListener true
+                if (!onObject) {
+                    this.addNewObject(this.lastTouchX, this.lastTouchY)
+                    return@OnLongClickListener true
+                } else {
+                    return@OnLongClickListener false
+                }
             } else {
                 return@OnLongClickListener false
             }
-
         })
 
         graphView.setOnTouchListener(View.OnTouchListener { view, ev ->
@@ -64,8 +68,12 @@ class MainActivity : AppCompatActivity() {
                     onMove = true
                     this.lastTouchX = ev.x
                     this.lastTouchY = ev.y
-//                    obj = getClickObject()
+                    if (modeAddObject || modeEdit) {
                         this.modifyObject(obj, this.lastTouchX, this.lastTouchY)
+                    }
+                    if (modeAddConnection) {
+                        this.tempConnection(obj, this.lastTouchX, this.lastTouchY)
+                    }
                 }
 
                 MotionEvent.ACTION_UP -> {
@@ -107,9 +115,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun modifyObject(obj: ConnectedObject?, x: Float, y: Float) {
-        obj?.x = x
-        obj?.y = y
+        when {
+            x < 0 -> obj?.x = 0f
+            x > graphView.width -> obj?.x = graphView.width.toFloat()
+            else -> obj?.x = x
+        }
+
+        when {
+            y < 0 -> obj?.y = 0f
+            y > graphView.height -> obj?.y = graphView.height.toFloat()
+            else -> obj?.y = y
+        }
+
         graphView.invalidate()
+    }
+
+    private fun tempConnection(obj: ConnectedObject?, x: Float, y: Float) {
+
     }
 
     fun reinitializeGraph(item: MenuItem) {
@@ -118,11 +140,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeLanguage(item: MenuItem) {
-        val newLocale: Locale
-        if (Locale.getDefault().language == "fr") {
-            newLocale = Locale("en")
+        val newLocale: Locale = if (Locale.getDefault().language == "fr") {
+            Locale("en")
         } else {
-            newLocale = Locale("fr")
+            Locale("fr")
         }
         Locale.setDefault(newLocale)
 
@@ -147,6 +168,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return null
+    }
+
+
+    fun setModeAddObject(item: MenuItem) {
+        this.modeAddConnection = false
+        this.modeEdit = false
+        this.modeAddObject = true
+    }
+
+    fun setModeAddConnection(item: MenuItem) {
+        this.modeAddObject = false
+        this.modeEdit = false
+        this.modeAddConnection = true
+    }
+
+    fun setModeEdit(item: MenuItem) {
+        this.modeAddObject = false
+        this.modeAddConnection = false
+        this.modeEdit = true
     }
 
 }
