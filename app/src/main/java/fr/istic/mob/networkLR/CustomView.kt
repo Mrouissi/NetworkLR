@@ -19,7 +19,7 @@ class CustomView @JvmOverloads constructor(
         if (canvas != null) {
             mCurrentCanvas = canvas
         }
-        if (MainActivity.mGraph.smartObject?.size == 0) {
+        if (MainActivity.graph.smartObjects?.size == 0) {
             val clearPaint = Paint()
             clearPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
             canvas!!.drawRect(0f, 0f, 0f, 0f, clearPaint)
@@ -30,7 +30,7 @@ class CustomView @JvmOverloads constructor(
     }
 
     private fun drawObject() {
-        MainActivity.mGraph.smartObject?.forEach {
+        MainActivity.graph.smartObjects?.forEach {
             var bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_camera)
             bitmap = Bitmap.createScaledBitmap(bitmap!!, 100, 100, false)
             val matrix = Matrix()
@@ -41,7 +41,7 @@ class CustomView @JvmOverloads constructor(
     }
 
     fun drawObject2() {
-        MainActivity.mGraph.smartObject?.forEach {
+        MainActivity.graph.smartObjects?.forEach {
             val mpaint = Paint()
             mpaint.color = it.color
             mpaint.style = Paint.Style.FILL
@@ -49,12 +49,12 @@ class CustomView @JvmOverloads constructor(
             paint2.color = Color.WHITE
             paint2.textSize = 50f //set text size
 
-            val w: Float = paint2.measureText(it.id) / 2
+            val w: Float = paint2.measureText(it.id.toString()) / 2
             val textSize: Float = paint2.textSize
 
             val rect = Rect(it.positionX-2*45, it.positionY-45, it.positionX+2*45, it.positionY+45)
             mCurrentCanvas.drawRect(rect, mpaint)
-            mCurrentCanvas.drawText(it.id, rect.centerX().toFloat(), rect.centerY().toFloat(), paint2)
+            mCurrentCanvas.drawText(it.id.toString(), rect.centerX().toFloat(), rect.centerY().toFloat(), paint2)
         }
     }
 
@@ -84,6 +84,7 @@ class CustomView @JvmOverloads constructor(
         Log.i("onTouchEvent", "X=$x \n Y=$y \n $eventAction \n --------- \n ")
         return false
     }
+
 
 
 }
