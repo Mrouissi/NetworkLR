@@ -10,4 +10,9 @@
     <string name="create_obj">Create</string>
     <string name="new_obj">New object</string>
     <string name="language">English</string>
+    <string name="save_res">Save network</string>
+    <string name="load_res">Load a network</string>
+    <string name="load_plan">Load a plan</string>
+    <string name="share">Share</string>
+    <string name="resau">Network</string>
 </resources>

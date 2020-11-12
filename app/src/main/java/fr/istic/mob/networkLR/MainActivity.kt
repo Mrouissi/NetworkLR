@@ -3,7 +3,6 @@ package fr.istic.mob.networkLR
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Path
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -12,7 +11,9 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 import java.util.*
 
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private var obj: ConnectedObject? = null
     private var onObject = false
+    private var onConnection = false
     private var onMove = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,27 +65,37 @@ class MainActivity : AppCompatActivity() {
                     this.lastTouchX = ev.x
                     this.lastTouchY = ev.y
                     if (!onMove) { obj = getClickObject() }
+                    if (onObject) {
+                        scrollV.requestDisallowInterceptTouchEvent(true)
+                        scrollH.requestDisallowInterceptTouchEvent(true)
+                    }
                 }
 
                 MotionEvent.ACTION_MOVE -> {
-                    onMove = true
-                    this.lastTouchX = ev.x
-                    this.lastTouchY = ev.y
-                    if (modeAddObject || modeEdit) {
-                        this.modifyObject(obj, this.lastTouchX, this.lastTouchY)
-                    }
-                    if (modeAddConnection && obj != null) {
-                        this.tempConnection(obj!!, this.lastTouchX, this.lastTouchY)
+                    if (onObject) {
+                        onMove = true
+                        this.lastTouchX = ev.x
+                        this.lastTouchY = ev.y
+                        if (modeAddObject || modeEdit) {
+                            this.modifyObject(obj, this.lastTouchX, this.lastTouchY)
+                        }
+                        if (modeAddConnection && obj != null) {
+                            this.tempConnection(obj!!, this.lastTouchX, this.lastTouchY)
+                        }
                     }
                 }
 
                 MotionEvent.ACTION_UP -> {
                     if (modeAddConnection) {
-                        if(getClickObject() != null && !this.graph.getListConnection().contains(Connection(obj!!, getClickObject()!!))) {
-                            this.graph.getListConnection().add(Connection(obj!!, getClickObject()!!))
+                        if(getClickObject() != null && !this.graph.containConnection(obj!!, getClickObject()!!)) {
+                            this.addNewConnection(obj!!, getClickObject()!!)
                         }
+                        graph.tempConnection?.onDeleteObj()
                         graph.tempConnection = null
+                        graphView.invalidate()
                     }
+                    scrollV.requestDisallowInterceptTouchEvent(false)
+                    scrollH.requestDisallowInterceptTouchEvent(false)
                     onMove = false
                     obj = null
                     onObject = false
@@ -121,19 +133,51 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun addNewConnection(obj1: ConnectedObject, obj2: ConnectedObject) {
+        val co = Connection(obj!!, getClickObject()!!)
+        co.name = this.graph.getListConnection().size.toString()
+        this.graph.getListConnection().add(co)
+        graphView.invalidate()
+        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+            .setView(R.layout.dialog_name_object)
+
+            .setNeutralButton(R.string.cancel_obj) { dialog, _ ->
+                this.graph.removeLastConnection()
+                graphView.invalidate()
+                dialog.dismiss()
+            }
+            .setPositiveButton(R.string.create_obj) { dialog, _ ->
+                val text= (dialog as? AlertDialog)?.findViewById<EditText>(R.id.objName)?.text?.toString()
+                if (text != null && text != "") {
+                    graph.getListConnection().last().name = text
+                }
+                dialog.dismiss()
+            }
+            .setOnCancelListener(DialogInterface.OnCancelListener {
+                graph.removeLastConnection()
+                graphView.invalidate()
+            })
+            .show()
+
+    }
+
     private fun modifyObject(obj: ConnectedObject?, x: Float, y: Float) {
         when {
             x < 0 -> obj?.x = 0f
             x > graphView.width -> obj?.x = graphView.width.toFloat()
             else -> obj?.x = x
         }
-
         when {
             y < 0 -> obj?.y = 0f
             y > graphView.height -> obj?.y = graphView.height.toFloat()
             else -> obj?.y = y
         }
 
+        for(connection in graph.getListConnection()) {
+            if (connection.getObj1Connection() == obj || connection.getObj2Connection() == obj) {
+                connection.onUpdateObj()
+            }
+        }
         graphView.invalidate()
     }
 
@@ -199,4 +243,15 @@ class MainActivity : AppCompatActivity() {
         this.modeEdit = true
     }
 
+    fun saveGraph(item: MenuItem) {
+//        val gson = GsonBuilder().setPrettyPrinting().create()
+//        val jsonGraph = gson.toJson(this.graph)
+//        val file = File("graphs.json")
+//        file.createNewFile()
+//        file.appendText(jsonGraph)
+    }
+
+    fun loadGraph(item: MenuItem) {
+
+    }
 }

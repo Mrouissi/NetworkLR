@@ -9,5 +9,10 @@
     <string name="create_obj">Créer</string>
     <string name="cancel_obj">Annuler</string>
     <string name="language">Français</string>
+    <string name="save_res">Sauvegarder le réseau</string>
+    <string name="load_res">Charger un réseau</string>
+    <string name="load_plan">Charger un plan</string>
+    <string name="share">Partager</string>
+    <string name="resau">Réseau</string>
 
 </resources>

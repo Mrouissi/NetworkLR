@@ -10,23 +10,49 @@
         android:onClick="reinitializeGraph"/>
 
     <item
+        android:id="@+id/menu_res"
+        android:title="@string/resau">
+        <menu>
+            <item
+                android:id="@+id/save_res"
+                android:title="@string/save_res"
+                android:onClick="saveGraph"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/load_res"
+                android:title="@string/load_res"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/load_plan"
+        android:title="@string/load_plan"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/add_object"
         android:title="@string/add_object"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         android:onClick="setModeAddObject"/>
     <item
         android:id="@+id/add_connection"
         android:title="@string/add_connection"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         android:onClick="setModeAddConnection"/>
     <item
         android:id="@+id/edit"
         android:title="@string/edit"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         android:onClick="setModeEdit"/>
     <item
         android:id="@+id/language"
         android:title="@string/language"
+        app:showAsAction="never"
+        android:onClick="changeLanguage"/>
+    <item
+        android:id="@+id/share"
+        android:title="@string/share"
         app:showAsAction="never"
         android:onClick="changeLanguage"/>
 

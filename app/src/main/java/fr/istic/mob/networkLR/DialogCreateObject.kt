@@ -13,7 +13,6 @@ class DialogCreateObject: DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var rootView: View = inflater.inflate(R.layout.dialog_name_object, container, false)
-        return rootView
+        return inflater.inflate(R.layout.dialog_name_object, container, false)
     }
 }

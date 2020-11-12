@@ -1,9 +1,15 @@
 package fr.istic.mob.networkLR
 
-class Connection(obj1: ConnectedObject, obj2: ConnectedObject) {
+import android.graphics.Path
 
-    private var obj1: ConnectedObject = obj1
-    private var obj2: ConnectedObject = obj2
+class Connection(private var obj1: ConnectedObject, private var obj2: ConnectedObject): Path() {
+
+    lateinit var name: String
+
+    init {
+        setLastPoint(obj1.x, obj1.y)
+        lineTo(obj2.x, obj2.y)
+    }
 
     fun getObj1Connection(): ConnectedObject {
         return this.obj1
@@ -11,5 +17,19 @@ class Connection(obj1: ConnectedObject, obj2: ConnectedObject) {
 
     fun getObj2Connection(): ConnectedObject {
         return this.obj2
+    }
+
+    fun onUpdateObj() {
+        reset()
+        setLastPoint(obj1.x, obj1.y)
+        lineTo(obj2.x, obj2.y)
+    }
+
+    fun onDeleteObj() {
+        reset()
+    }
+
+    fun contains(o1: ConnectedObject, o2: ConnectedObject): Boolean {
+        return (obj1 == o1 && obj2 == o2) || (obj1 == o2 && obj2 == o1)
     }
 }
