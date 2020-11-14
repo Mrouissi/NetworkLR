@@ -1,12 +1,4 @@
 package fr.istic.mob.networkLR.data
 
-import androidx.room.*
-@SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
-@Entity
-data class Connection (
-                      @PrimaryKey(autoGenerate = true) var id: Int,
-                      @ColumnInfo(name = "id_GraphCon") var idGraphCon: Int,
-                      @Embedded(prefix = "start_") var startSmartObject: SmartObject,
-                      @Embedded(prefix = "end_") var endSmartObject: SmartObject,
-                    ) {
-}
+import androidx.room.TypeConverters
+data class Connection(var startSmartObject: SmartObject,var endSmartObject: SmartObject? , var color :Int , var name : String, var episseur : Float)

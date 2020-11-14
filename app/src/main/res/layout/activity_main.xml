@@ -10,26 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/plan" />
-    <Button
-        android:id="@+id/btnShow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Long press me"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="100dp"/>
 
-    <Button
-        android:layout_margin="25dp"
-        android:id="@+id/getdata"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="483dp"
-        android:text="getdata" />
 
     <fr.istic.mob.networkLR.CustomView
         android:id="@+id/activity_main_custom_view"

@@ -9,13 +9,4 @@ import androidx.room.RoomWarnings
 
 
 
-class Graph(i: Int, arrayListOf: List<SmartObject>, arrayListOf1: List<Connection>) {
-    @Embedded
-    lateinit var graphEntity: GraphEntity
-
-    @Relation(parentColumn = "id", entityColumn = "id_GraphS")
-    var smartObject: ArrayList<SmartObject>? =  ArrayList()
-
-    @Relation(parentColumn = "id", entityColumn = "id_GraphCon")
-    var connection: ArrayList<Connection>? =  ArrayList()
-}
+data class Graph(var name:String, var smartObject: ArrayList<SmartObject>?, val connection: ArrayList<Connection>?)

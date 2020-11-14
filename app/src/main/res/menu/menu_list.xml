@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/edit_name"
+        android:title="@string/edit_name" />
+
+    <item android:id="@+id/color"
+        android:title="@string/color">
+        <menu>
+            <item
+                android:id="@+id/red_item"
+                android:title="@string/red"
+                android:icon="@drawable/ic_db_24"
+                />
+            <item
+                android:id="@+id/green_item"
+                android:title="@string/green"
+                />
+            <item
+                android:id="@+id/blue_item"
+                android:title="@string/blue"
+                />
+            <item
+                android:id="@+id/orange_item"
+                android:title="@string/orange"
+                />
+            <item
+                android:id="@+id/black_item"
+                android:title="@string/black"
+                />
+            <item
+                android:id="@+id/cyan_item"
+                android:title="@string/cyan"
+                />
+            <item
+                android:id="@+id/magenta_item"
+                android:title="@string/magenta"
+                />
+        </menu>
+</item>
+    <item android:id="@+id/thickness"
+        android:title="@string/edit_thickness" />
+
+    <item android:id="@+id/change_bitmap"
+        android:title="@string/change_image">
+    <menu>
+        <item
+            android:id="@+id/bath_ic"
+            android:title="@string/bath"
+            />
+        <item
+            android:id="@+id/bed_ic"
+            android:title="@string/bed"
+            />
+        <item
+            android:id="@+id/tel_ic"
+            android:title="@string/television"
+            />
+        <item
+            android:id="@+id/div_ic"
+            android:title="@string/couch"
+            />
+        <item
+            android:id="@+id/tn_ic"
+            android:title="@string/nightstand"
+            />
+        <item
+            android:id="@+id/desk_ic"
+            android:title="@string/desktop"
+            />
+        <item
+            android:id="@+id/table_ic"
+            android:title="@string/table"
+            />
+        <item
+            android:id="@+id/dt_ic"
+            android:title="@string/dinner_table"
+            />
+        <item
+            android:id="@+id/bas_ic"
+            android:title="@string/basin"
+            />
+    </menu>
+</item>>
+
+    <item android:id="@+id/delete"
+        android:title="@string/delete" />
+
+</menu>
